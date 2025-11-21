@@ -1,7 +1,8 @@
 const express = require('express');
 
-const resultRoutes = require('./api/v1/latest-result.routes');
-const addNewResultRoute = require('./api/v1/add-result.routes')
+const latestResultRoute = require('./api/v1/latest-result.routes');
+const oldestResultRoute = require('./api/v1/oldest-result.routes');
+const addNewResultRoute = require('./api/v1/add-result.routes');
 
 const app = express();
 app.use(express.json());
@@ -11,9 +12,20 @@ app.get('/', (req, res) => {
   res.send('Hello from Node API');
 });
 
-// GET the latest release_id
-app.use('/api/v1/id/release', resultRoutes);
-// POST the new result
+/**
+ * GET Routes
+ */
+
+// Latest(based on release_id) data result.
+app.use('/api/v1/release', latestResultRoute);
+// Oldest(based on release_id) data result.
+app.use('/api/v1/release', oldestResultRoute);
+
+/**
+ * POST Routes
+ */
+
+// Add new Data.
 app.use('/api/v1/result', addNewResultRoute)
 
 module.exports = app;
