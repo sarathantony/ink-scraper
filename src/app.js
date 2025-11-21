@@ -3,6 +3,7 @@ const express = require('express');
 const latestResultRoute = require('./api/v1/latest-result.routes');
 const oldestResultRoute = require('./api/v1/oldest-result.routes');
 const addNewResultRoute = require('./api/v1/add-result.routes');
+const addHistoricalResultRoute = require('./api/v1/add-historical-result.routes');
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,8 @@ app.use('/api/v1/release', oldestResultRoute);
  */
 
 // Add new Data.
-app.use('/api/v1/result', addNewResultRoute)
+app.use('/api/v1/result', addNewResultRoute);
+// Add historical Data. :- Use with caution
+app.use('/api/v1/result/add', addHistoricalResultRoute);
 
 module.exports = app;
