@@ -1,8 +1,8 @@
-const Result = require("../models/results.model");
+const Result = require("../../models/results.model");
 
-const { fetchLatestReleaseId } = require("../services/result.service");
-const { getResults } = require("../lib/scraper");
-const { MEDIAN_RELEASE_ID } = require("../constants/app.constants");
+const { fetchLatestReleaseId } = require("../../services/result.service");
+const { getResults } = require("../../lib/scraper");
+const { MEDIAN_RELEASE_ID } = require("../../constants/app.constants");
 
 exports.addHistoricalRecords = async (req, res) => {
   let created = [];

@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { getMissingReleaseIdRanges } = require('../../controllers/missing-ranges.controller');
+const { getMissingReleaseIdRanges } = require('../../../controllers/range/missing-ranges.controller');
 
 router.get('/missing-ranges', getMissingReleaseIdRanges);
 

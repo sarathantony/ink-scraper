@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getOldestResult } = require('../../controllers/oldest-result.controller');
+const { getOldestResult } = require('../../../controllers/results/oldest-result.controller');
 
 router.get('/oldest', getOldestResult);
 

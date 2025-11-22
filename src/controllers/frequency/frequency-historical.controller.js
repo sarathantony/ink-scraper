@@ -1,7 +1,7 @@
 // controllers/frequency.full.controller.js
-const Result = require('../models/results.model');
+const Result = require('../../models/results.model');
 
-const { buildFullRangeFrequencies } = require('../utils/frequency.utils');
+const { buildFullRangeFrequencies } = require('../../utils/frequency.utils');
 
 // prize fields (explicit list keeps it safe & reusable)
 const PRIZE_FIELDS = [

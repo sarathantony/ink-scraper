@@ -1,7 +1,7 @@
-const Result = require('../models/results.model');
+const Result = require('../../models/results.model');
 
-const { fetchLatestReleaseId } = require('../services/result.service')
-const { getResults } = require('../lib/scraper');
+const { fetchLatestReleaseId } = require('../../services/result.service')
+const { getResults } = require('../../lib/scraper');
 
 exports.addResult = async (req, res) => {
   try {

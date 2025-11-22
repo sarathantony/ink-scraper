@@ -1,6 +1,6 @@
-const Result = require("../models/results.model");
+const Result = require("../../models/results.model");
 
-const { findMissingRanges } = require("../utils/missing-ranges.util");
+const { findMissingRanges } = require("../../utils/missing-ranges.util");
 
 exports.getMissingReleaseIdRanges = async (req, res) => {
     try {

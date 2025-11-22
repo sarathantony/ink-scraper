@@ -1,7 +1,7 @@
-const Result = require("../models/results.model");
+const Result = require("../../models/results.model");
 
-const { getResults } = require("../lib/scraper");
-const { MEDIAN_RELEASE_ID, HISTORICAL_BREAK_POINT } = require("../constants/app.constants");
+const { getResults } = require("../../lib/scraper");
+const { MEDIAN_RELEASE_ID, HISTORICAL_BREAK_POINT } = require("../../constants/app.constants");
 
 exports.addHistoricalFromBreakPointRecords = async (req, res) => {
   let created = [];

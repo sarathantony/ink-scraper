@@ -1,5 +1,5 @@
-const Result = require('../models/results.model');
-const { RELEASE_ID } = require('../constants/app.constants');
+const Result = require('../../models/results.model');
+const { RELEASE_ID } = require('../../constants/app.constants');
 
 exports.getLatestResult = async (req, res) => {
   try {

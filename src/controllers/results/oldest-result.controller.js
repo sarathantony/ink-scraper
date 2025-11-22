@@ -1,4 +1,4 @@
-const Result = require('../models/results.model');
+const Result = require('../../models/results.model');
 
 exports.getOldestResult = async (req, res) => {
   try {
