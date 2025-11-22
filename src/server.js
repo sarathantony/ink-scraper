@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 8000;
 // connect to MongoDB first
 connectDB();
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+server.setTimeout(600000);
