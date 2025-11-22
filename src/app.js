@@ -20,6 +20,8 @@ app.use('/api/v1/release', require('./api/v1/oldest-result.routes'));
 app.use('/api/v1/release', require('./api/v1/missing-ranges.routes'));
 // Fetch the data based on release id.
 app.use('/api/v1/release', require('./api/v1/result-by-id.routes'));
+// Historical frequency data.
+app.use('/api/v1/result/frequency', require('./api/v1/frequency-historical.routes'));
 
 /**
  * POST Routes
