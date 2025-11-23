@@ -22,6 +22,8 @@ app.use('/api/v1/release', require('./api/v1/range/missing-ranges.routes'));
 app.use('/api/v1/release', require('./api/v1/results/result-by-id.routes'));
 // Historical frequency data.
 app.use('/api/v1/result/frequency', require('./api/v1/frequency/frequency-historical.routes'));
+// Custom frequency data based on type and value.
+app.use('/api/v1/result/frequency', require('./api/v1/results/custom/frequency-custom.routes'));
 
 /**
  * POST Routes

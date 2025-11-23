@@ -16,4 +16,21 @@ const extractNumbers = (text, newPattern, oldPattern) => {
   }
 };
 
-module.exports = { extractNumbers };
+function parseDMY(str) {
+  const [d, m, y] = str.split('/');
+
+  return new Date(`${y}-${m}-${d}T00:00:00`);
+}
+
+function buildPrizedList() {
+  const obj = {};
+
+  for (let i = 0; i <= 9999; i++) {
+    const key = String(i).padStart(4, "0");
+    obj[key] = 0;
+  }
+
+  return obj;
+}
+
+module.exports = { extractNumbers, parseDMY, buildPrizedList };
