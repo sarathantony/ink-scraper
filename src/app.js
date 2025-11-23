@@ -36,4 +36,9 @@ app.use('/api/v1/result/add', require('./api/v1/add/add-historical-result.routes
 // Add from historical break point to median release id. :- Use with caution
 app.use('/api/v1/result/add/historical', require('./api/v1/add/add-from-breakpoint-result.routes'));
 
+/**
+ * UPDATE Routes.
+ */
+app.use("/api/v1/results", require('./api/v1/results/custom/refetch/update-result.routes'));
+
 module.exports = app;
