@@ -12,10 +12,8 @@ app.get('/', (req, res) => {
  * GET Routes
  */
 
-// Latest(based on release_id) data result.
-app.use('/api/v1/release', require('./api/v1/results/latest-result.routes'));
-// Oldest(based on release_id) data result.
-app.use('/api/v1/release', require('./api/v1/results/oldest-result.routes'));
+// Fetch `latest` or `oldest` result.
+app.use('/api/v1/release', require('./api/v1/results/head-or-tail.routes'));
 // Fetch missing release id ranges.
 app.use('/api/v1/release', require('./api/v1/range/missing-ranges.routes'));
 // Fetch the data based on release id.
