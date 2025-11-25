@@ -1,6 +1,8 @@
 const express = require('express');
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Default route
@@ -38,5 +40,10 @@ app.use('/api/v1/result/add/historical', require('./api/v1/add/add-from-breakpoi
  * UPDATE Routes.
  */
 app.use("/api/v1/results", require('./api/v1/results/custom/refetch/update-result.routes'));
+
+/**
+ * AUTH Routes.
+ */
+app.use("/api/v1/auth", require("./api/v1/auth/auth.routes"));
 
 module.exports = app;
