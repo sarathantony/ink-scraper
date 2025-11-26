@@ -1,7 +1,10 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config({ path: ".env.local" });
+}
 
 const app = require('./app');
 const connectDB = require('./config/db');
+
 
 const PORT = process.env.PORT || 8000;
 
