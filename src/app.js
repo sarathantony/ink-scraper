@@ -8,6 +8,12 @@ app.get('/', (req, res) => {
   res.send('Server is up and running!');
 });
 
+// Health check route
+app.get("/health", (req, res) => {
+  res.json({ message: "Backend connected successfully!" });
+});
+
+
 /**
  * GET Routes
  */
