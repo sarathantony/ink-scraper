@@ -9,7 +9,15 @@ const ResultsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  series: {
+    type: String,
+    required: true,
+  },
   date: {
+    type: String,
+    required: true,
+  },
+  day: {
     type: String,
     required: true,
   },

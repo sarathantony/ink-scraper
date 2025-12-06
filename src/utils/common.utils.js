@@ -33,4 +33,40 @@ function buildPrizedList() {
   return obj;
 }
 
-module.exports = { extractNumbers, parseDMY, buildPrizedList };
+function getWeekdayFromDate(dateStr) {
+  // Strict DD/MM/YYYY
+  const match = dateStr.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+
+  if (!match) {
+    throw new Error("Invalid date format. Expected DD/MM/YYYY");
+  }
+
+  const dd = Number(match[1]);
+  const mm = Number(match[2]);
+  const yyyy = Number(match[3]);
+
+  // Validate month
+  if (mm < 1 || mm > 12) {
+    throw new Error("Invalid month in date");
+  }
+
+  // Validate day (handles leap years)
+  const daysInMonth = new Date(yyyy, mm, 0).getDate();
+  if (dd < 1 || dd > daysInMonth) {
+    throw new Error("Invalid day for given month");
+  }
+
+  // Use UTC to avoid timezone shifting the date
+  const date = new Date(Date.UTC(yyyy, mm - 1, dd));
+
+  const weekdays = [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
+  ];
+
+  return weekdays[date.getUTCDay()];
+}
+
+
+
+module.exports = { extractNumbers, parseDMY, buildPrizedList, getWeekdayFromDate };
