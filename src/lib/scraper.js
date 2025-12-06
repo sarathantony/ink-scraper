@@ -1,8 +1,13 @@
 require("dotenv").config();
 
 const { PDFParse } = require("pdf-parse");
-const { extractNumbers } = require("../utils/common.utils");
+const { extractNumbers, getWeekdayFromDate } = require("../utils/common.utils");
 
+/**
+ * getResults - Fetches and parses lottery result data from a PDF based on the provided serial number.
+ * @param {String} serialNumber
+ * @returns {Object} Parsed result data
+ */
 async function getResults(serialNumber) {
   const url = `${process.env.TARGET_URL}${serialNumber}`;
 
@@ -20,11 +25,22 @@ async function getResults(serialNumber) {
       /\b\d{1,2}\/\d{1,2}\/\d{4}\s+\d{1,2}:\d{2}:\d{2}\s+--\s+\d+\s+of\s+\d+\s+--/g,
       ""
     );
+    // robust extraction: last UPPERCASE block immediately before "LOTTERY NO."
+    const nameMatch = sanitizedText.match(
+      /(?:.*?)\b([A-Z][A-Z0-9&\-\s]{1,40})\s+LOTTERY\s+NO\./s
+    );
+    const name = nameMatch ? nameMatch[1].trim() : null;
+    const date = sanitizedText.match(/\b\d{2}\/\d{2}\/\d{4}\b/)?.[0] || null;
+
+    // Construct the data object
     const data = {
       serialNumber:
-        sanitizedText.match(/LOTTERY\s+NO\.([A-Z]{1,3}-\d+)/i)?.[1].replace("-", "") ||
-        null,
-      date: sanitizedText.match(/\b\d{2}\/\d{2}\/\d{4}\b/)?.[0] || null,
+        sanitizedText
+          .match(/LOTTERY\s+NO\.([A-Z]{1,3}-\d+)/i)?.[1]
+          .replace("-", "") || null,
+      series: name,
+      date: date,
+      day: getWeekdayFromDate(date),
       fiveThousand: extractNumbers(
         sanitizedText,
         /4th\s*Prize[-\s]*Rs\s*:?5000\/?-?\s*(.*?)5th\s*Prize/,

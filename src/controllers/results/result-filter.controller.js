@@ -41,7 +41,7 @@ exports.getResultByFilter = async (req, res) => {
           });
         }
 
-        result = await Result.find({}, "_id release_id serialNumber date")
+        result = await Result.find({}, "_id release_id serialNumber date series day")
           .sort({ createdAt: -1 })
           .limit(limit)
           .lean();

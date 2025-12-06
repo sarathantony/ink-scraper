@@ -31,7 +31,9 @@ exports.refetchAndUpdateAll = async (req, res) => {
           {
             $set: {
               serialNumber: parsed.serialNumber,
+              series: parsed.series,
               date: parsed.date,
+              day: parsed.day,
               fiveThousand: parsed.fiveThousand,
               twoThousand: parsed.twoThousand,
               thousand: parsed.thousand,
