@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 
 const app = express();
 app.use(express.json());
 
 // Default route
-app.get('/', (req, res) => {
-  res.send('Server is up and running!');
+app.get("/", (req, res) => {
+  res.send("Server is up and running!");
 });
 
 // Health check route
@@ -13,36 +13,54 @@ app.get("/health", (req, res) => {
   res.json({ message: "Backend connected successfully!" });
 });
 
-
 /**
  * GET Routes
  */
 
 // Fetch `latest` or `oldest` result.
-app.use('/api/v1/release', require('./api/v1/results/head-or-tail.routes'));
+app.use("/api/v1/release", require("./api/v1/results/head-or-tail.routes"));
 // Fetch missing release id ranges.
-app.use('/api/v1/release', require('./api/v1/range/missing-ranges.routes'));
+app.use("/api/v1/release", require("./api/v1/range/missing-ranges.routes"));
 // Fetch the data based on release id.
-app.use('/api/v1/release', require('./api/v1/results/result-by-id.routes'));
+app.use("/api/v1/release", require("./api/v1/results/result-by-id.routes"));
 // Historical frequency data.
-app.use('/api/v1/result/frequency', require('./api/v1/frequency/frequency-historical.routes'));
+app.use(
+  "/api/v1/result/frequency",
+  require("./api/v1/frequency/frequency-historical.routes")
+);
 // Custom frequency data based on type and value.
-app.use('/api/v1/result/frequency', require('./api/v1/results/custom/frequency-custom.routes'));
+app.use(
+  "/api/v1/result/frequency",
+  require("./api/v1/results/custom/frequency-custom.routes")
+);
+app.use(
+  "/api/v1/result/grouped",
+  require("./api/v1/results/custom/frequency-grouped.routes")
+);
 
 /**
  * POST Routes
  */
 
 // Add new Data.
-app.use('/api/v1/result', require('./api/v1/add/add-result.routes'));
+app.use("/api/v1/result", require("./api/v1/add/add-result.routes"));
 // Add historical Data. :- Use with caution
-app.use('/api/v1/result/add', require('./api/v1/add/add-historical-result.routes'));
+app.use(
+  "/api/v1/result/add",
+  require("./api/v1/add/add-historical-result.routes")
+);
 // Add from historical break point to median release id. :- Use with caution
-app.use('/api/v1/result/add/historical', require('./api/v1/add/add-from-breakpoint-result.routes'));
+app.use(
+  "/api/v1/result/add/historical",
+  require("./api/v1/add/add-from-breakpoint-result.routes")
+);
 
 /**
  * UPDATE Routes.
  */
-app.use("/api/v1/results", require('./api/v1/results/custom/refetch/update-result.routes'));
+app.use(
+  "/api/v1/results",
+  require("./api/v1/results/custom/refetch/update-result.routes")
+);
 
 module.exports = app;
