@@ -1,4 +1,4 @@
-const Result = require('../../models/results.model');
+const Result = require("../../models/results.model");
 
 exports.getResultByReleaseId = async (req, res) => {
   try {
@@ -15,7 +15,6 @@ exports.getResultByReleaseId = async (req, res) => {
     }
 
     res.status(200).json(record);
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

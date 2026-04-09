@@ -1,19 +1,16 @@
-const Result = require('../../../models/results.model');
+const Result = require("../../../models/results.model");
 
-const { buildPrizedList } = require('../../../utils/common.utils');
-const { buildFullRangeFrequencies } = require('../../../utils/frequency.utils');
-const { PRIZE_FIELDS, allowedTypes } = require('../../../constants/app.constants');
-const { parseDMY } = require('../../../utils/common.utils');
+const { buildPrizedList } = require("../../../utils/common.utils");
+const { buildFullRangeFrequencies } = require("../../../utils/frequency.utils");
+const {
+  PRIZE_FIELDS,
+  allowedTypes,
+} = require("../../../constants/app.constants");
+const { parseDMY } = require("../../../utils/common.utils");
 
 exports.getTimedFrequencies = async (req, res) => {
   try {
-    const {
-      startDate,
-      endDate,
-      filterBy,
-      filterDuration,
-      sort
-    } = req.body;
+    const { startDate, endDate, filterBy, filterDuration, sort } = req.body;
 
     const now = new Date();
     let rangeStart = null;
@@ -25,13 +22,14 @@ exports.getTimedFrequencies = async (req, res) => {
 
     if (!hasRange && !hasFilter) {
       return res.status(400).json({
-        message: "Provide either (startDate & endDate) OR (filterBy & filterDuration)"
+        message:
+          "Provide either (startDate & endDate) OR (filterBy & filterDuration)",
       });
     }
 
     if (hasRange && hasFilter) {
       return res.status(400).json({
-        message: "Provide EITHER a date range OR a filter range, not both"
+        message: "Provide EITHER a date range OR a filter range, not both",
       });
     }
 
@@ -41,11 +39,15 @@ exports.getTimedFrequencies = async (req, res) => {
       const ed = parseDMY(endDate);
 
       if (!sd || !ed) {
-        return res.status(400).json({ message: "Invalid date format (dd/mm/yyyy expected)" });
+        return res
+          .status(400)
+          .json({ message: "Invalid date format (dd/mm/yyyy expected)" });
       }
 
       if (sd > ed) {
-        return res.status(400).json({ message: "startDate cannot be greater than endDate" });
+        return res
+          .status(400)
+          .json({ message: "startDate cannot be greater than endDate" });
       }
 
       rangeStart = sd;
@@ -54,39 +56,44 @@ exports.getTimedFrequencies = async (req, res) => {
 
     // Scenario B — Compute dynamic range using filterBy & filterDuration
     if (hasFilter) {
-      const normalized = filterBy.replace(/s$/, '');
+      const normalized = filterBy.replace(/s$/, ""); // Remove trailing 's' for plural forms (e.g., days -> day)
 
       if (!allowedTypes.includes(normalized)) {
         return res.status(400).json({
-          message: "Invalid filterBy. Use day | month | week | year"
+          message: "Invalid filterBy. Use day | month | week | year",
         });
       }
 
       const duration = Number(filterDuration);
       if (Number.isNaN(duration) || duration <= 0) {
-        return res.status(400).json({ message: "filterDuration must be a positive number" });
+        return res
+          .status(400)
+          .json({ message: "filterDuration must be a positive number" });
       }
 
       rangeStart = new Date(now);
 
-      if (normalized === 'day') {
+      if (normalized === "day") {
         rangeStart.setDate(now.getDate() - duration);
       }
-      if (normalized === 'week') {
-        rangeStart.setDate(now.getDate() - (duration * 7));
+      if (normalized === "week") {
+        rangeStart.setDate(now.getDate() - duration * 7);
       }
-      if (normalized === 'month') {
+      if (normalized === "month") {
         rangeStart.setMonth(now.getMonth() - duration);
       }
-      if (normalized === 'year') {
+      if (normalized === "year") {
         rangeStart.setFullYear(now.getFullYear() - duration);
       }
     }
 
     // Load documents
-    const docs = await Result.find({}, [...PRIZE_FIELDS, 'date'].join(' ')).lean();
+    const docs = await Result.find(
+      {},
+      [...PRIZE_FIELDS, "date"].join(" "),
+    ).lean();
 
-    const filtered = docs.filter(d => {
+    const filtered = docs.filter((d) => {
       if (!d.date) return false;
       const dt = parseDMY(d.date);
       return dt >= rangeStart && dt <= rangeEnd;
@@ -94,7 +101,11 @@ exports.getTimedFrequencies = async (req, res) => {
 
     // Build frequencies
     const frequencies = buildPrizedList();
-    const finalCounts = buildFullRangeFrequencies(filtered, PRIZE_FIELDS, frequencies);
+    const finalCounts = buildFullRangeFrequencies(
+      filtered,
+      PRIZE_FIELDS,
+      frequencies,
+    );
 
     const cleaned = {};
     for (const [key, val] of Object.entries(finalCounts)) {
@@ -122,12 +133,11 @@ exports.getTimedFrequencies = async (req, res) => {
         ? { type: "custom-date-range", startDate, endDate }
         : { type: filterBy, duration: filterDuration },
       totalDocsInRange: filtered.length,
-      frequencies: output
+      frequencies: output,
     });
-
   } catch (err) {
-    console.error('getTimedFrequencies error:', err);
+    console.error("getTimedFrequencies error:", err);
+
     return res.status(500).json({ message: err.message });
   }
 };
-

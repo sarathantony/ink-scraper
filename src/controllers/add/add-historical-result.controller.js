@@ -4,6 +4,9 @@ const { fetchLatestReleaseId } = require("../../services/result.service");
 const { getResults } = require("../../lib/scraper");
 const { MEDIAN_RELEASE_ID } = require("../../constants/app.constants");
 
+/**
+ * Adds historical records up to the median release ID.
+ */
 exports.addHistoricalRecords = async (req, res) => {
   let created = [];
   let failed = [];
@@ -12,6 +15,7 @@ exports.addHistoricalRecords = async (req, res) => {
     const latestReleaseId = await fetchLatestReleaseId();
     let nextReleaseId = Number(latestReleaseId) + 1;
 
+    // To add from the begining upto the median: while (RELEASE_ID <= MEDIAN_RELEASE_ID)
     while (nextReleaseId <= MEDIAN_RELEASE_ID) {
       try {
         const data = await getResults(nextReleaseId);
@@ -25,7 +29,9 @@ exports.addHistoricalRecords = async (req, res) => {
       } catch (error) {
         failed.push({ id: nextReleaseId, error: error.message });
 
-        console.log("Failed for ID:", nextReleaseId, "| Reason:", error.message);
+        console.log(
+          `Failed for ID: ${nextReleaseId} | Reason: ${error.message}`,
+        );
       }
 
       nextReleaseId++;
