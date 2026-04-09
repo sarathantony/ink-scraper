@@ -17,7 +17,7 @@ const extractNumbers = (text, newPattern, oldPattern) => {
 };
 
 function parseDMY(str) {
-  const [d, m, y] = str.split('/');
+  const [d, m, y] = str.split("/");
 
   return new Date(`${y}-${m}-${d}T00:00:00`);
 }
@@ -60,13 +60,21 @@ function getWeekdayFromDate(dateStr) {
   const date = new Date(Date.UTC(yyyy, mm - 1, dd));
 
   const weekdays = [
-    "Sunday", "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday"
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ];
 
   return weekdays[date.getUTCDay()];
 }
 
-
-
-module.exports = { extractNumbers, parseDMY, buildPrizedList, getWeekdayFromDate };
+module.exports = {
+  extractNumbers,
+  parseDMY,
+  buildPrizedList,
+  getWeekdayFromDate,
+};

@@ -1,4 +1,3 @@
-
 function buildFullRangeFrequencies(docs, fields = []) {
   // initialize 0000..9999 with zeros
   const counts = {};
@@ -8,7 +7,12 @@ function buildFullRangeFrequencies(docs, fields = []) {
     counts[key] = 0;
   }
 
-  if (!Array.isArray(docs) || docs.length === 0 || !Array.isArray(fields) || fields.length === 0) {
+  if (
+    !Array.isArray(docs) ||
+    docs.length === 0 ||
+    !Array.isArray(fields) ||
+    fields.length === 0
+  ) {
     return counts;
   }
 

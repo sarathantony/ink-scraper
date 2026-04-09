@@ -1,6 +1,11 @@
 const Result = require("../../models/results.model");
 const { RELEASE_ID } = require("../../constants/app.constants");
 
+/**
+ * getResultByFilter - Fetches results based on the specified filter
+ *
+ * @returns JSON response with the filtered results
+ */
 exports.getResultByFilter = async (req, res) => {
   try {
     const { filterBy, size } = req.query;
@@ -16,10 +21,12 @@ exports.getResultByFilter = async (req, res) => {
     switch (filterBy) {
       // Get the oldest record
       case "oldest":
-        result = await Result.findOne().sort({ createdAt: -1 }) || RELEASE_ID;
+        result = (await Result.findOne().sort({ createdAt: -1 })) || RELEASE_ID;
+
         if (!result) {
           return res.status(404).json({ message: "No records found" });
         }
+
         return res.status(200).json({ type: "oldest", data: result });
 
       // Get the latest record
@@ -41,7 +48,11 @@ exports.getResultByFilter = async (req, res) => {
           });
         }
 
-        result = await Result.find({}, "_id release_id serialNumber date series day")
+        // Fetch the latest N records sorted by creation date in descending order
+        result = await Result.find(
+          {},
+          "_id release_id serialNumber date series day",
+        )
           .sort({ createdAt: -1 })
           .limit(limit)
           .lean();

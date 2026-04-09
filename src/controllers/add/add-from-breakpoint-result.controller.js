@@ -1,7 +1,9 @@
 const Result = require("../../models/results.model");
-
 const { getResults } = require("../../lib/scraper");
-const { MEDIAN_RELEASE_ID, HISTORICAL_BREAK_POINT } = require("../../constants/app.constants");
+const {
+  MEDIAN_RELEASE_ID,
+  HISTORICAL_BREAK_POINT,
+} = require("../../constants/app.constants");
 
 exports.addHistoricalFromBreakPointRecords = async (req, res) => {
   let created = [];
@@ -23,7 +25,9 @@ exports.addHistoricalFromBreakPointRecords = async (req, res) => {
       } catch (error) {
         failed.push({ id: nextReleaseId, error: error.message });
 
-        console.log("Failed for ID:", nextReleaseId, "| Reason:", error.message);
+        console.log(
+          `Failed for ID: ${nextReleaseId} | Reason: ${error.message}`,
+        );
       }
 
       nextReleaseId++;
